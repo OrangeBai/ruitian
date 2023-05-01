@@ -1,0 +1,56 @@
+name: linear_1
+model_dir: E:\Experiments\Ruitian
+
+train:
+  num_epoch: 10
+  grad_acc: 16
+model_setting:
+#  model: linear
+  model: fc_dropout
+  fc_dropout:
+    width: 512
+    blocks: 2
+    bn: True
+    dropout: True
+
+dataset:
+  base:
+    base_dir: E:\Dataset\Ruitian\09628_basefeature_candidate
+    proc_dir: D:\ruitian\processed
+#    input_uid: null
+    input_uid: !!python/list
+      - '000001-SZ-stock'
+#    target_uid: null
+    target_uid: !!python/list
+      - '000001-SZ-stock'
+    folders: !!python/tuple
+      - 'data0'
+      - 'data1'
+      - 'data2'
+#      - 'data3'
+#      - 'data4'
+    batch_size: 1
+    num_workers: 12
+  train_period: !!python/tuple
+    - '2018-01-01'
+    - '2018-07-01'
+  test_period: !!python/tuple
+    - '2019-07-01'
+    - '2020-01-01'
+
+lr_opt:
+  lr: 0.001
+  optimizer: 'SGD'
+  SGD:
+    momentum: 0.9
+    weight_decay: 0.001
+
+  scheduler: milestones
+  milestones:
+    milestones: !!python/tuple
+      - 0.4
+      - 0.7
+    gamma: 0.2
+
+
+
