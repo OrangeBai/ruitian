@@ -9,7 +9,7 @@ if __name__ == '__main__':
     with open('config.yaml', 'r') as f:
         config = yaml.full_load(f)
 
-    logtool = WandbLogger(name=config['name'], save_dir=config['model_dir'], project='Ruitian')
+    logtool = WandbLogger(name=config['name'], save_dir=config['model_dir'], project='Ruitian', id=config['name'])
 
     model = PLModel(config)
 
@@ -30,4 +30,4 @@ if __name__ == '__main__':
                          accumulate_grad_batches=model.grad_acc,
                          )
     trainer.fit(model)
-    # model.save_model(logtool.experiment.dir)
+    model.save_model(logtool.experiment.dir)

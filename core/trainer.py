@@ -16,7 +16,7 @@ class PLModel(pl.LightningModule):
         self.input_uid, self.target_uid = self._set_target()
 
         self.train_loader = self._set_loader('train')
-        self.val_loader = self._set_loader('train')
+        self.val_loader = self._set_loader('test')
 
         self.norm_layer = self._set_norm_layer()
         self.loss_function = torch.nn.MSELoss()
@@ -54,7 +54,7 @@ class PLModel(pl.LightningModule):
         if mode == 'train':
             config['period'] = self.config['dataset']['train_period']
         else:
-            config['period'] = self.config['dataset']['train_period']
+            config['period'] = self.config['dataset']['test_period']
         return set_dataloader(**config)
 
     def _set_model(self):
@@ -91,6 +91,10 @@ class PLModel(pl.LightningModule):
         lr_scheduler = init_scheduler(sch_name, lr=config['lr'], num_step=num_step, optimizer=optimizer, **sch_config)
         return [optimizer], [{"scheduler": lr_scheduler, "interval": "step"}]
 
+    @property
+    def lr(self):
+        return self.trainer.optimizers[0].param_groups[0]['lr']
+
     def training_step(self, batch, batch_idx):
         x, y = batch[0].cuda(), batch[1].cuda()
         x = self.norm_layer(x)
@@ -106,6 +110,7 @@ class PLModel(pl.LightningModule):
         outputs[invalid_y] = 0
 
         loss = self.loss_function(outputs, y)
+        self.log('lr', self.lr, sync_dist=True)
         self.log('train/loss', loss, sync_dist=True, on_step=False, on_epoch=True)
         return loss
 
@@ -125,6 +130,11 @@ class PLModel(pl.LightningModule):
 
         loss = self.loss_function(outputs, y)
         self.log('val/loss', loss, sync_dist=True, on_step=False, on_epoch=True)
+        return
+
+
+    def save_model(self, save_dir):
+        torch.save(self.model, os.path.join(save_dir, 'model.pth'))
         return
 
 

@@ -10,6 +10,7 @@ class BaseModel(nn.Module):
         self.time_length = 7
         self.num_feat = num_feat
         self.num_uid = num_uid
+        self.num_output = num_output
 
 
 class LinearRegression(BaseModel):
@@ -35,7 +36,7 @@ class FCDropout(BaseModel):
                 LinearBlock(width, width, bn=bn, dropout=dropout)
             )
 
-        layers.append(nn.Linear(width, 1))
+        layers.append(nn.Linear(width, self.num_output))
         self.layers = nn.Sequential(*layers)
 
     def forward(self, x):
