@@ -1,17 +1,22 @@
-name: fc_drop_1
+name: lstm
 model_dir: E:\Experiments\Ruitian
 
 train:
-  num_epoch: 1
-  grad_acc: 32
+  num_epoch: 30
+  grad_acc: 16
 model_setting:
 #  model: linear
-  model: fc_dropout
+  model: LSTM
   fc_dropout:
     width: 1024
     blocks: 2
     bn: True
-    dropout: True
+    dropout: 0.5
+  LSTM:
+    width: 512
+    num_blocks: 2
+    num_layers: 2
+    dropout: 0.25
 
 dataset:
   base:
@@ -39,7 +44,7 @@ dataset:
     - '2020-01-01'
 
 lr_opt:
-  lr: 0.005
+  lr: 0.05
   optimizer: 'SGD'
   SGD:
     momentum: 0.9

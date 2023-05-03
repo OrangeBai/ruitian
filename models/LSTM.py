@@ -3,17 +3,16 @@ import torch
 import torch.nn as nn
 from torch.nn import functional as F
 import torch.optim as optim
-from dataloader.loader import load_h5py
 from sklearn.decomposition import SparsePCA
 import numpy
-train_data_path = r"E:\Dataset\Ruitian\09628_basefeature_candidate\processed\x\000001-SZ-stock.csv"
-df = pd.read_csv(train_data_path, index_col='SnapTime')
-df.fillna(0,inplace=True)
-dtypes = df.dtypes
-
-valid_colums = [k for k, v in zip(df.columns, dtypes) if v == numpy.float64 or v == numpy.int64]
-df = df[valid_colums]
-print(1)
+# train_data_path = r"E:\Dataset\Ruitian\09628_basefeature_candidate\processed\x\000001-SZ-stock.csv"
+# df = pd.read_csv(train_data_path, index_col='SnapTime')
+# df.fillna(0,inplace=True)
+# dtypes = df.dtypes
+#
+# valid_colums = [k for k, v in zip(df.columns, dtypes) if v == numpy.float64 or v == numpy.int64]
+# df = df[valid_colums]
+# print(1)
 
 
 
