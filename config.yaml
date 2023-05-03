@@ -1,9 +1,9 @@
-name: lstm
+name: lstm_4
 model_dir: E:\Experiments\Ruitian
 
 train:
   num_epoch: 30
-  grad_acc: 16
+  grad_acc: 2
 model_setting:
 #  model: linear
   model: LSTM
@@ -14,7 +14,7 @@ model_setting:
     dropout: 0.5
   LSTM:
     width: 512
-    num_blocks: 2
+    num_blocks: 1
     num_layers: 2
     dropout: 0.25
 
@@ -45,9 +45,14 @@ dataset:
 
 lr_opt:
   lr: 0.05
-  optimizer: 'SGD'
+  optimizer: 'Adam'
   SGD:
     momentum: 0.9
+    weight_decay: 0.001
+  Adam:
+    beta: !!python/tuple
+      - 0.9
+      - 0.99
     weight_decay: 0.001
 
   scheduler: milestones

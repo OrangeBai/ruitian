@@ -1,7 +1,7 @@
 import pytorch_lightning as pl
 import pandas as pd
 import os
-from models.model_zoo import set_model
+from core.model_zoo import set_model
 from core.torch_io import set_dataloader, Normalize, DataLoader
 import torch
 from utils.external import load_feat_uid

@@ -68,8 +68,8 @@ def init_optimizer(model, optimizer, lr, **kwargs):
         optimizer = torch.optim.SGD(model.parameters(), lr=lr + 1e-8, momentum=kwargs['momentum'],
                                     weight_decay=kwargs['weight_decay'])
     elif optimizer == 'Adam':
-        optimizer = torch.optim.Adam(model.parameters(), lr=lr + 1e-8, betas=(0.9, 0.99),
-                                     weight_decay=1e-4)
+        optimizer = torch.optim.Adam(model.parameters(), lr=lr + 1e-8, betas=kwargs['beta'],
+                                     weight_decay=kwargs['weight_decay'])
     else:
         raise NameError('Optimizer {0} not found'.format(optimizer))
     return optimizer
